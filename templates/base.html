@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AURA Credit ML{% endblock %}</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo-glow"></div>
+                <i class="fa-solid fa-shield-halved brand-icon"></i>
+                <span class="brand-text">AURA<span>Credit</span></span>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="/" class="menu-item {% if active_page == 'analyst' %}active{% endif %}">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span>Analyst Portal</span>
+                </a>
+                <a href="/compliance" class="menu-item {% if active_page == 'compliance' %}active{% endif %}">
+                    <i class="fa-solid fa-network-wired"></i>
+                    <span>Compliance Hub</span>
+                </a>
+                <a href="/self_service" class="menu-item {% if active_page == 'self_service' %}active{% endif %}">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <span>Eligibility Wizard</span>
+                </a>
+                <a href="/models" class="menu-item {% if active_page == 'models' %}active{% endif %}">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Model Analytics</span>
+                </a>
+                <a href="/watson" class="menu-item {% if active_page == 'watson' %}active{% endif %}">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Watson ML Ops</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">SYSTEM ONLINE</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Body Content -->
+        <main class="main-content">
+            <!-- Header bar -->
+            <header class="main-header">
+                <div class="header-search">
+                    <span class="search-title">{% block page_title %}Credit Card Approval Automation{% endblock %}</span>
+                </div>
+                <div class="header-profile">
+                    <div class="system-badge">
+                        <span class="badge-label">Active Model:</span>
+                        <span class="badge-value" id="active-model-badge">{{ best_model_name if best_model_name else "Loading..." }}</span>
+                    </div>
+                    <div class="profile-avatar">
+                        <div class="avatar-glow"></div>
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Specific Content -->
+            <section class="content-wrapper">
+                {% block content %}{% endblock %}
+            </section>
+        </main>
+    </div>
+
+    <!-- Script dependencies -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Risk & Compliance Hub - AURA Credit{% endblock %}
+{% block page_title %}Risk & Compliance Batch Screening{% endblock %}
+
+{% block content %}
+<!-- Metrics Summary Bar -->
+<div class="metrics-grid animate-fade-in">
+    <div class="metric-card glassmorphic border-dim">
+        <div class="metric-info">
+            <span class="metric-label">Batch Screened</span>
+            <h3 class="metric-value" id="batch-total-count">0</h3>
+        </div>
+        <div class="metric-icon icon-bg-blue">
+            <i class="fa-solid fa-users-viewfinder"></i>
+        </div>
+    </div>
+    <div class="metric-card glassmorphic border-dim">
+        <div class="metric-info">
+            <span class="metric-label">High Risk Flagged</span>
+            <h3 class="metric-value text-red" id="batch-high-risk-count">0</h3>
+        </div>
+        <div class="metric-icon icon-bg-red">
+            <i class="fa-solid fa-triangle-exclamation text-red"></i>
+        </div>
+    </div>
+    <div class="metric-card glassmorphic border-dim">
+        <div class="metric-info">
+            <span class="metric-label">Compliance Pass Rate</span>
+            <h3 class="metric-value text-green" id="batch-pass-rate">0.0%</h3>
+        </div>
+        <div class="metric-icon icon-bg-green">
+            <i class="fa-solid fa-square-check text-green"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Main Table Card -->
+<div class="card glassmorphic shadow-neon border-dim mt-6 animate-fade-in">
+    <div class="card-header flex-between">
+        <div>
+            <h2 class="section-title"><i class="fa-solid fa-shield-halved icon-accent-mint"></i> Automated Payment Status Conversion Logs</h2>
+            <p class="section-subtitle">Real-time auditing of multi-class monthly payment history mapped to binary risk alerts (High Risk triggers on status codes '2', '3', '4', '5').</p>
+        </div>
+        
+        <div class="table-actions">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="compliance-search" placeholder="Search applicant ID...">
+            </div>
+            <select id="compliance-filter">
+                <option value="all">All Risk Levels</option>
+                <option value="high">High Risk (Class 1)</option>
+                <option value="low">Low Risk (Class 0)</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="card-body no-padding">
+        <div class="table-responsive">
+            <table class="premium-table" id="compliance-table">
+                <thead>
+                    <tr>
+                        <th>Applicant ID</th>
+                        <th>Demographics</th>
+                        <th>Annual Income</th>
+                        <th>Credit Inquiries</th>
+                        <th>Outstanding Debt</th>
+                        <th>Status Code History</th>
+                        <th>Audited Decision</th>
+                    </tr>
+                </thead>
+                <tbody id="compliance-tbody">
+                    <!-- Dynamic rendering of batch list via AJAX / JSON loading -->
+                    <tr>
+                        <td colspan="7" class="text-center py-8">
+                            <i class="fa-solid fa-circle-notch fa-spin text-mint font-size-xl"></i>
+                            <p class="mt-2 text-muted">Auditing batch credit payment streams...</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Payment History Modal (Slide Over Panel) -->
+<div class="slide-panel-overlay hide" id="timeline-panel-overlay">
+    <div class="slide-panel">
+        <div class="slide-panel-header">
+            <h3><i class="fa-solid fa-clock-rotate-left icon-accent-blue"></i> Payment Record Timeline</h3>
+            <button class="btn-close" id="close-timeline-panel"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="slide-panel-body" id="timeline-panel-body">
+            <!-- Timeline elements dynamically generated -->
+        </div>
+    </div>
+</div>
+{% endblock %}

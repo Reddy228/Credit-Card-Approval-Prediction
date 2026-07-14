@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Model Analytics - AURA Credit{% endblock %}
+{% block page_title %}Machine Learning Model Analytics{% endblock %}
+
+{% block content %}
+<div class="grid-2-col">
+    <!-- Model Comparison Card -->
+    <div class="card glassmorphic shadow-neon border-blue animate-fade-in">
+        <div class="card-header">
+            <h2 class="section-title"><i class="fa-solid fa-chart-simple icon-accent-blue"></i> Classifier Metrics Comparison</h2>
+            <p class="section-subtitle">Comparing Accuracy, Precision, Recall, and F1-Score across the four candidate classifiers trained on historical credit history.</p>
+        </div>
+        <div class="card-body">
+            <div class="chart-container" style="position: relative; height: 350px;">
+                <canvas id="metrics-comparison-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Importance Card -->
+    <div class="card glassmorphic shadow-neon border-mint animate-fade-in">
+        <div class="card-header">
+            <h2 class="section-title"><i class="fa-solid fa-ranking-stars icon-accent-mint"></i> Feature Importance Breakdown</h2>
+            <p class="section-subtitle">Identifying the key demographic and financial factors driving credit approval classification decisions.</p>
+        </div>
+        <div class="card-body">
+            <div class="chart-container" style="position: relative; height: 350px;">
+                <canvas id="feature-importance-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detailed Metrics Table Card -->
+<div class="card glassmorphic shadow-neon border-dim mt-6 animate-fade-in">
+    <div class="card-header">
+        <h2 class="section-title"><i class="fa-solid fa-list-ol icon-accent-blue"></i> Tabular Performance Summary</h2>
+        <p class="section-subtitle">Standardized evaluation metrics logged from stratified test datasets.</p>
+    </div>
+    <div class="card-body no-padding">
+        <div class="table-responsive">
+            <table class="premium-table text-left">
+                <thead>
+                    <tr>
+                        <th>Algorithm</th>
+                        <th>Accuracy</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1-Score</th>
+                        <th>ROC-AUC</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="metrics-table-body">
+                    <!-- Loaded dynamically via JSON -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

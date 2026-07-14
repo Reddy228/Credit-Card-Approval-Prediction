@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %}Eligibility Check - AURA Credit{% endblock %}
+{% block page_title %}Customer Self-Service Eligibility Wizard{% endblock %}
+
+{% block content %}
+<div class="grid-2-col-equal">
+    <!-- Wizard Card -->
+    <div class="card glassmorphic shadow-neon border-blue animate-fade-in">
+        <div class="card-header">
+            <h2 class="section-title"><i class="fa-solid fa-wand-magic-sparkles icon-accent-blue"></i> Find Your Approval Likelihood</h2>
+            <p class="section-subtitle">Complete this simple 3-step estimator wizard. We do not perform hard pull credit checks.</p>
+        </div>
+        <div class="card-body">
+            <!-- Form Progress Stepper -->
+            <div class="stepper">
+                <div class="step active" id="step-ind-1">
+                    <span class="step-num">1</span>
+                    <span class="step-label">About You</span>
+                </div>
+                <div class="step-line" id="step-line-1"></div>
+                <div class="step" id="step-ind-2">
+                    <span class="step-num">2</span>
+                    <span class="step-label">Financials</span>
+                </div>
+                <div class="step-line" id="step-line-2"></div>
+                <div class="step" id="step-ind-3">
+                    <span class="step-num">3</span>
+                    <span class="step-label">Credit Record</span>
+                </div>
+            </div>
+
+            <form id="wizard-form" class="wizard-form-container mt-6">
+                <!-- Step 1: Personal Details -->
+                <div class="wizard-step active" id="wizard-step-1">
+                    <div class="form-group">
+                        <label for="wiz-gender">Gender</label>
+                        <select name="CODE_GENDER" id="wiz-gender" required>
+                            <option value="F">Female</option>
+                            <option value="M">Male</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="wiz-age">Age (Years)</label>
+                            <input type="number" name="AGE_YEARS" id="wiz-age" value="28" min="18" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="wiz-family">Family Status</label>
+                            <select name="NAME_FAMILY_STATUS" id="wiz-family" required>
+                                <option value="Single / not married">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Civil marriage">Civil Partnership</option>
+                                <option value="Separated">Separated</option>
+                                <option value="Widow">Widow</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wiz-education">Education Level</label>
+                        <select name="NAME_EDUCATION_TYPE" id="wiz-education" required>
+                            <option value="Secondary / secondary special">Secondary School</option>
+                            <option value="Higher education">University Degree</option>
+                            <option value="Incomplete higher">Some University</option>
+                            <option value="Lower secondary">Primary School</option>
+                            <option value="Academic degree">Post-graduate Degree</option>
+                        </select>
+                    </div>
+
+                    <div class="flex-end mt-4">
+                        <button type="button" class="btn btn-primary" onclick="nextWizardStep(2)">Next: Financials <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Financial Details -->
+                <div class="wizard-step" id="wizard-step-2">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="wiz-income">Annual Income ($)</label>
+                            <input type="number" name="AMT_INCOME_TOTAL" id="wiz-income" value="75000" min="1000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="wiz-income-type">Employment Type</label>
+                            <select name="NAME_INCOME_TYPE" id="wiz-income-type" required>
+                                <option value="Working">Employee / Salaried</option>
+                                <option value="Commercial associate">Business owner / Consultant</option>
+                                <option value="State servant">Government Worker</option>
+                                <option value="Pensioner">Retired</option>
+                                <option value="Student">Student</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="wiz-employment">Employment Duration (Years)</label>
+                            <input type="number" name="EMPLOYMENT_DURATION_YEARS" id="wiz-employment" value="3" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="wiz-housing">Housing Situation</label>
+                            <select name="NAME_HOUSING_TYPE" id="wiz-housing" required>
+                                <option value="House / apartment">Own House / Apartment</option>
+                                <option value="With parents">Living with Parents</option>
+                                <option value="Rented apartment">Renting</option>
+                                <option value="Municipal apartment">Municipal/Social Housing</option>
+                                <option value="Office apartment">Company Housing</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <button type="button" class="btn btn-secondary" onclick="prevWizardStep(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextWizardStep(3)">Next: Credit Record <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Credit Record & Inquiries -->
+                <div class="wizard-step" id="wizard-step-3">
+                    <div class="form-group">
+                        <label for="wiz-inquiries">Recent Credit Inquiries (Past 6 Months)</label>
+                        <input type="number" name="CNT_CREDIT_INQUIRIES" id="wiz-inquiries" value="4" min="0" max="20" required>
+                        <span class="help-text">Includes applications for loans, store cards, or other bank cards.</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wiz-loan-balance">Current Outstanding Loan Debt ($)</label>
+                        <input type="number" name="EXISTING_LOAN_BALANCE" id="wiz-loan-balance" value="30000" min="0" required>
+                        <span class="help-text">Sum total of credit card balances, personal/car loans, student debt.</span>
+                    </div>
+
+                    <div class="form-row">
+                        <input type="hidden" name="FLAG_OWN_CAR" value="N">
+                        <input type="hidden" name="FLAG_OWN_REALTY" value="Y">
+                    </div>
+
+                    <div class="form-row mt-6">
+                        <button type="button" class="btn btn-secondary" onclick="prevWizardStep(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button type="submit" class="btn btn-success btn-glow-green">Calculate Eligibility <i class="fa-solid fa-calculator"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Eligibility Output Dial -->
+    <div class="card glassmorphic shadow-neon border-dim flex-center-col p-8 text-center animate-fade-in" id="eligibility-output-card">
+        <div class="gauge-dial-container">
+            <svg class="gauge-svg" viewBox="0 0 200 200">
+                <!-- Outer Track -->
+                <path class="gauge-bg" d="M 30,160 A 80,80 0 1,1 170,160" fill="none" stroke-width="12"></path>
+                <!-- Color Gradient fill -->
+                <path class="gauge-fill-arc" id="gauge-fill-path" d="M 30,160 A 80,80 0 1,1 170,160" fill="none" stroke-width="12" stroke-dasharray="351.8" stroke-dashoffset="351.8"></path>
+            </svg>
+            <div class="gauge-overlay">
+                <span class="gauge-percentage" id="gauge-score">--%</span>
+                <span class="gauge-status-label" id="gauge-label">Pending Estimation</span>
+            </div>
+        </div>
+
+        <div class="mt-4" id="eligibility-results-text">
+            <h3>Ready to Calculate</h3>
+            <p class="text-muted">Enter your demographic and credit details into the wizard on the left. The neural estimator will calculate your approval probability score.</p>
+        </div>
+
+        <!-- Custom recommendations based on scoring values -->
+        <div class="recommendations-box hide" id="eligibility-tips-box">
+            <h4 class="text-left text-mint"><i class="fa-solid fa-lightbulb"></i> Personalized Improvement Tips:</h4>
+            <ul class="tips-list mt-2" id="eligibility-tips-list">
+                <!-- Tips populating dynamically -->
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

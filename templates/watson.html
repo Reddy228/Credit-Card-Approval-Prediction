@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Watson ML Ops - AURA Credit{% endblock %}
+{% block page_title %}IBM Watson Machine Learning Console{% endblock %}
+
+{% block content %}
+<div class="grid-2-col">
+    <!-- WML Console Card -->
+    <div class="card glassmorphic shadow-neon border-blue animate-fade-in">
+        <div class="card-header">
+            <h2 class="section-title"><i class="fa-solid fa-server icon-accent-blue"></i> Cloud Deployment Metadata</h2>
+            <p class="section-subtitle">Active connection properties to IBM Cloud Watson Machine Learning service.</p>
+        </div>
+        <div class="card-body">
+            <div class="devops-info-grid">
+                <div class="info-row">
+                    <span class="info-label">Service Instance URL</span>
+                    <span class="info-value text-blue">https://us-south.ml.cloud.ibm.com</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">WML Space ID</span>
+                    <span class="info-value">wml-space-8f43-d922a94f6c44</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Deployment Name</span>
+                    <span class="info-value">Credit_Approval_Deployment</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Deployment UID</span>
+                    <span class="info-value code-font">dep-c741e93c-21a4-4bf8-b99d</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Model Runtime Specs</span>
+                    <span class="info-value">runtime-22.2-py3.10 (scikit-learn 1.1)</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Status</span>
+                    <span class="info-value flex-align-center">
+                        <span class="pulse-dot-green"></span>
+                        <span class="text-green font-bold ml-2">ACTIVE / ONLINE</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- API logs console simulator -->
+            <div class="console-box mt-6">
+                <div class="console-header">
+                    <span class="console-title"><i class="fa-solid fa-terminal"></i> Live Scoring Logs</span>
+                    <span class="console-actions">
+                        <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+                    </span>
+                </div>
+                <div class="console-body" id="wml-console-logs">
+                    <div class="log-entry"><span class="log-ts">[15:24:02]</span> <span class="log-info">INFO</span> Initializing connection with Cloud Space UID: wml-space-8f43...</div>
+                    <div class="log-entry"><span class="log-ts">[15:24:03]</span> <span class="log-info">INFO</span> Authorization token retrieved successfully from IAM service.</div>
+                    <div class="log-entry"><span class="log-ts">[15:24:04]</span> <span class="log-info">INFO</span> Endpoint listener ready for incoming payloads.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- cURL & Integration Card -->
+    <div class="card glassmorphic shadow-neon border-mint animate-fade-in">
+        <div class="card-header">
+            <h2 class="section-title"><i class="fa-solid fa-code icon-accent-mint"></i> Scoring Integration Snippet</h2>
+            <p class="section-subtitle">Construct payload requests using standard cURL syntax or Python script templates.</p>
+        </div>
+        <div class="card-body">
+            <div class="tabs-control">
+                <button class="tab-btn active" onclick="switchSnippetTab('curl')">cURL Request</button>
+                <button class="tab-btn" onclick="switchSnippetTab('python')">Python (Requests)</button>
+            </div>
+            
+            <!-- Code Block container -->
+            <div class="code-block-container mt-4">
+                <pre class="code-pre" id="snippet-curl"><code>curl -X POST \
+  'https://us-south.ml.cloud.ibm.com/ml/v4/deployments/dep-c741e93c-21a4-4bf8-b99d/predictions?version=2026-07-04' \
+  -H 'Authorization: Bearer YOUR_IAM_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "input_data": [{
+      "fields": ["CODE_GENDER", "FLAG_OWN_CAR", "FLAG_OWN_REALTY", "AMT_INCOME_TOTAL", "NAME_INCOME_TYPE", "NAME_EDUCATION_TYPE", "NAME_FAMILY_STATUS", "NAME_HOUSING_TYPE", "DAYS_BIRTH", "DAYS_EMPLOYED", "CNT_CREDIT_INQUIRIES", "EXISTING_LOAN_BALANCE"],
+      "values": [["F", "N", "Y", 185000.0, "Working", "Higher education", "Married", "House / apartment", -15000, -2500, 1, 12000.0]]
+    }]
+  }'</code></pre>
+                <pre class="code-pre hide" id="snippet-python"><code>import requests
+
+url = "https://us-south.ml.cloud.ibm.com/ml/v4/deployments/dep-c741e93c-21a4-4bf8-b99d/predictions?version=2026-07-04"
+headers = {
+    "Authorization": "Bearer YOUR_IAM_TOKEN",
+    "Content-Type": "application/json"
+}
+payload = {
+    "input_data": [{
+        "fields": ["CODE_GENDER", "FLAG_OWN_CAR", "FLAG_OWN_REALTY", "AMT_INCOME_TOTAL", "NAME_INCOME_TYPE", "NAME_EDUCATION_TYPE", "NAME_FAMILY_STATUS", "NAME_HOUSING_TYPE", "DAYS_BIRTH", "DAYS_EMPLOYED", "CNT_CREDIT_INQUIRIES", "EXISTING_LOAN_BALANCE"],
+        "values": [["F", "N", "Y", 185000.0, "Working", "Higher education", "Married", "House / apartment", -15000, -2500, 1, 12000.0]]
+    }]
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())</code></pre>
+            </div>
+            
+            <p class="mt-4 text-muted font-size-sm"><i class="fa-solid fa-circle-info"></i> Re-generate tokens using your IBM Cloud API Key and store safely. Real deployments require setting up authentication pipelines.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block title %}Credit Analyst Screening - AURA Credit{% endblock %}
+{% block page_title %}Credit Analyst Screening Portal{% endblock %}
+
+{% block content %}
+<div class="grid-2-col">
+    <!-- Screening Form Card -->
+    <div class="card glassmorphic shadow-neon border-blue animate-fade-in">
+        <div class="card-header">
+            <h2 class="section-title"><i class="fa-solid fa-file-invoice-dollar icon-accent-blue"></i> Applicant Profile Screening</h2>
+            <p class="section-subtitle">Input demographic and financial parameters to retrieve real-time ML eligibility screening.</p>
+        </div>
+        <div class="card-body">
+            <form id="screening-form" class="theme-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select name="CODE_GENDER" id="gender" required>
+                            <option value="F">Female</option>
+                            <option value="M">Male</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="own_car">Own Car</label>
+                        <select name="FLAG_OWN_CAR" id="own_car" required>
+                            <option value="N">No</option>
+                            <option value="Y">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="own_realty">Own Realty</label>
+                        <select name="FLAG_OWN_REALTY" id="own_realty" required>
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="income">Annual Income ($)</label>
+                        <input type="number" name="AMT_INCOME_TOTAL" id="income" value="180000" min="1000" step="500" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="income_type">Income Type</label>
+                        <select name="NAME_INCOME_TYPE" id="income_type" required>
+                            <option value="Working">Working</option>
+                            <option value="Commercial associate">Commercial Associate</option>
+                            <option value="State servant">State Servant</option>
+                            <option value="Pensioner">Pensioner</option>
+                            <option value="Student">Student</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="education">Education Level</label>
+                        <select name="NAME_EDUCATION_TYPE" id="education" required>
+                            <option value="Higher education">Higher Education</option>
+                            <option value="Secondary / secondary special">Secondary / Secondary Special</option>
+                            <option value="Incomplete higher">Incomplete Higher</option>
+                            <option value="Lower secondary">Lower Secondary</option>
+                            <option value="Academic degree">Academic Degree</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="family_status">Family Status</label>
+                        <select name="NAME_FAMILY_STATUS" id="family_status" required>
+                            <option value="Married">Married</option>
+                            <option value="Single / not married">Single / Not Married</option>
+                            <option value="Civil marriage">Civil Marriage</option>
+                            <option value="Separated">Separated</option>
+                            <option value="Widow">Widow</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="housing">Housing Type</label>
+                        <select name="NAME_HOUSING_TYPE" id="housing" required>
+                            <option value="House / apartment">House / Apartment</option>
+                            <option value="With parents">With Parents</option>
+                            <option value="Municipal apartment">Municipal Apartment</option>
+                            <option value="Rented apartment">Rented Apartment</option>
+                            <option value="Office apartment">Office Apartment</option>
+                            <option value="Co-op apartment">Co-op Apartment</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age (Years)</label>
+                        <input type="number" name="AGE_YEARS" id="age" value="35" min="18" max="100" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="employment">Employment Duration (Years)</label>
+                        <input type="number" name="EMPLOYMENT_DURATION_YEARS" id="employment" value="8" min="0" max="60" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inquiries">Credit Inquiries (Past Months)</label>
+                        <input type="number" name="CNT_CREDIT_INQUIRIES" id="inquiries" value="1" min="0" max="20" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="loan_balance">Existing Loan Balance ($)</label>
+                    <input type="number" name="EXISTING_LOAN_BALANCE" id="loan_balance" value="25000" min="0" step="100" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-glow-blue w-full mt-4">
+                    <i class="fa-solid fa-microchip-ai"></i> Run Approval Algorithm
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Screening Result Card -->
+    <div class="card glassmorphic shadow-neon border-dim result-card-empty animate-fade-in" id="result-card-container">
+        <div class="result-placeholder" id="result-placeholder-view">
+            <div class="scanner-container">
+                <div class="scanner-circle">
+                    <i class="fa-solid fa-radar fa-spin-slow"></i>
+                </div>
+                <div class="scanner-line"></div>
+            </div>
+            <h3>Awaiting Applicant Profile</h3>
+            <p>Fill out the profile screening form and initiate scoring to evaluate real-time credit decision criteria.</p>
+        </div>
+
+        <div class="result-display hide" id="result-display-view">
+            <div class="decision-badge-container">
+                <div class="decision-halo" id="decision-halo"></div>
+                <div class="decision-badge" id="decision-badge">
+                    <i class="fa-solid" id="decision-icon"></i>
+                </div>
+            </div>
+            
+            <h2 id="decision-title" class="decision-title">APPROVED</h2>
+            <p id="decision-subtitle" class="decision-subtitle">Profile meets institutional credit criteria.</p>
+
+            <div class="confidence-gauge-container">
+                <div class="gauge-stats">
+                    <span class="gauge-label">Decision Confidence</span>
+                    <span class="gauge-value" id="decision-confidence-val">94.2%</span>
+                </div>
+                <div class="gauge-track">
+                    <div class="gauge-fill" id="decision-confidence-fill" style="width: 94.2%"></div>
+                </div>
+            </div>
+
+            <div class="risk-factors-section">
+                <h4 class="risk-factors-title"><i class="fa-solid fa-list-check"></i> Contributing Decision Factors</h4>
+                <ul class="risk-factors-list" id="risk-factors-list">
+                    <!-- Dynamic decision explanation list -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
